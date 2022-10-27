@@ -53,7 +53,6 @@ function RegisterScreen(props) {
     const handlePressSubmit = useCallback(() => {
         Keyboard.dismiss()
 
-        console.log(inputs)
         dispatch(fetchSignUp(inputs));
 
     }, [inputs])

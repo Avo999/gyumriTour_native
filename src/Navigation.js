@@ -4,13 +4,14 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {AccountNavigator, HomeNavigator} from './navigations'
 import {useDispatch, useSelector} from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {setToken, fetchProfile} from "./store/actions/userActions";
+import {setToken} from "./store/actions/userActions";
+import { flatMap } from 'lodash';
 
 
 const Tab = createBottomTabNavigator();
 
 function App(props) {
-    const [appReady, setAppReady] = useState();
+    const [appReady, setAppReady] = useState(true);
     const token = useSelector(store => store.user.token);
     const dispatch = useDispatch();
 
@@ -18,17 +19,16 @@ function App(props) {
         (async () => {
             const t = await AsyncStorage.getItem('token');
             await dispatch(setToken(t));
-            setAppReady(true);
-            dispatch(fetchProfile())
+             setAppReady(false);
             // SplashScrren.hide();
         })()
     }, [])
 
    
 
-    // if (appReady) {
-    //     return null
-    // }
+    if (appReady) {
+        return null
+    }
 
     return (
         <Tab.Navigator>
@@ -39,7 +39,6 @@ function App(props) {
                 }
             }}
                         name="Home" component={HomeNavigator}/>
-
 
             <Tab.Screen
                 options={{

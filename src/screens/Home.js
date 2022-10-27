@@ -1,106 +1,111 @@
 import React from 'react';
-import {Text, TouchableOpacity, View} from "react-native";
+import {Text, TouchableOpacity, View, StyleSheet, Dimensions, FlatList} from "react-native";
 import Wrapper from "../components/Wrapper";
 import {useNavigation} from "@react-navigation/native";
 import {ScrollView} from "react-native-gesture-handler";
+import Swiper from 'react-native-swiper';
+import FeaturedRaw from '../components/FeaturedRaw';
 
+const {width} = Dimensions.get('window');
 
+const filters = [
+  {name: 'Hotels', id: 1, rating: 4, address: 'Sayat Nova'},
+  {name: 'Restourants', id: 2, rating: 4, address: 'Sayat Nova'},
+  {name: 'Sightseeings', id: 3, rating: 4, address: 'Sayat Nova'},
+  {name: 'Cafes', id: 4, rating: 4, address: 'Sayat Nova'},
+  {name: 'Guides', id: 5, rating: 4, address: 'Sayat Nova'}
+]
 function Home(props) {
     const navigation = useNavigation();
+    
     return (
         <Wrapper>
             <ScrollView >
-                <View>
-                    <Text>
-                        <Text>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque deserunt dignissimos
-                            doloremque, ducimus eaque error est expedita labore magni molestias necessitatibus obcaecati
-                            quam qui, quo rem saepe sapiente sit veritatis.
-                        </Text>
-                        <Text>Architecto cupiditate deserunt dolorem doloribus ea earum eligendi ex expedita facilis
-                            fugiat fugit hic inventore magni, minus quos suscipit, totam? Iste optio quasi quibusdam
-                            ratione? Adipisci beatae maxime perspiciatis sequi.
-                        </Text>
-                        <Text>Aliquam at beatae, blanditiis culpa cupiditate doloribus esse, ex ipsa libero magnam minima
-                            nemo nihil officiis quae qui quos, ratione sapiente sit temporibus totam ullam velit veniam
-                            veritatis vero voluptatem?
-                        </Text>
-                        <Text>Accusantium adipisci aliquam culpa exercitationem expedita illo ipsum laboriosam, molestiae
-                            molestias nam repellendus sit suscipit velit. Accusamus cumque dignissimos itaque nemo odio
-                            temporibus veniam voluptatum. Aspernatur iusto magni necessitatibus repudiandae!
-                        </Text>
-                        <Text>Culpa saepe, similique. Aliquid aperiam at, atque culpa delectus dicta distinctio dolor
-                            dolore explicabo in iure minus quaerat quia quibusdam quo reiciendis, saepe, sequi soluta
-                            suscipit velit vero voluptas voluptatibus.
-                        </Text>
-                        <Text>Cumque, dicta distinctio eos optio placeat quaerat quis! Ad, at dolore, dolorem ducimus est
-                            eum ex hic laboriosam minima minus mollitia obcaecati quam quidem voluptates voluptatum.
-                            Consequatur laborum qui unde.
-                        </Text>
-                        <Text>Aliquid asperiores consectetur cum iste, numquam quae quo rerum tempora voluptates? Ab
-                            blanditiis dolor error excepturi possimus qui quisquam sequi ullam! Aperiam at culpa
-                            dignissimos fugit impedit, iste necessitatibus voluptates?
-                        </Text>
-                        <Text>Commodi delectus necessitatibus repudiandae sint vitae. Aliquam culpa error, facere laborum
-                            numquam praesentium quasi tempore! Ab autem ducimus iusto libero nihil odio odit omnis? Aut
-                            doloremque incidunt laborum modi praesentium?
-                        </Text>
-                        <Text>Architecto atque blanditiis, corporis cupiditate dignissimos, eaque error eum explicabo
-                            facere id, inventore laborum libero nam nemo officiis praesentium reiciendis. Aliquid aut
-                            excepturi, exercitationem nihil perferendis possimus quidem unde? Et!
-                        </Text>
-                        <Text>Ab autem deleniti dicta dolor quisquam recusandae reiciendis? Alias animi assumenda beatae
-                            cum dolore, dolorem doloremque est et fugiat hic ipsam labore maiores nam nobis perferendis
-                            quam quis reiciendis vel.
-                        </Text>
-                    </Text>
-                </View>
-                <View>
-                    <Text>
-                        <Text>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque deserunt dignissimos
-                            doloremque, ducimus eaque error est expedita labore magni molestias necessitatibus obcaecati
-                            quam qui, quo rem saepe sapiente sit veritatis.
-                        </Text>
-                        <Text>Architecto cupiditate deserunt dolorem doloribus ea earum eligendi ex expedita facilis
-                            fugiat fugit hic inventore magni, minus quos suscipit, totam? Iste optio quasi quibusdam
-                            ratione? Adipisci beatae maxime perspiciatis sequi.
-                        </Text>
-                        <Text>Aliquam at beatae, blanditiis culpa cupiditate doloribus esse, ex ipsa libero magnam minima
-                            nemo nihil officiis quae qui quos, ratione sapiente sit temporibus totam ullam velit veniam
-                            veritatis vero voluptatem?
-                        </Text>
-                        <Text>Accusantium adipisci aliquam culpa exercitationem expedita illo ipsum laboriosam, molestiae
-                            molestias nam repellendus sit suscipit velit. Accusamus cumque dignissimos itaque nemo odio
-                            temporibus veniam voluptatum. Aspernatur iusto magni necessitatibus repudiandae!
-                        </Text>
-                        <Text>Culpa saepe, similique. Aliquid aperiam at, atque culpa delectus dicta distinctio dolor
-                            dolore explicabo in iure minus quaerat quia quibusdam quo reiciendis, saepe, sequi soluta
-                            suscipit velit vero voluptas voluptatibus.
-                        </Text>
-                        <Text>Cumque, dicta distinctio eos optio placeat quaerat quis! Ad, at dolore, dolorem ducimus est
-                            eum ex hic laboriosam minima minus mollitia obcaecati quam quidem voluptates voluptatum.
-                            Consequatur laborum qui unde.
-                        </Text>
-                        <Text>Aliquid asperiores consectetur cum iste, numquam quae quo rerum tempora voluptates? Ab
-                            blanditiis dolor error excepturi possimus qui quisquam sequi ullam! Aperiam at culpa
-                            dignissimos fugit impedit, iste necessitatibus voluptates?
-                        </Text>
-                        <Text>Commodi delectus necessitatibus repudiandae sint vitae. Aliquam culpa error, facere laborum
-                            numquam praesentium quasi tempore! Ab autem ducimus iusto libero nihil odio odit omnis? Aut
-                            doloremque incidunt laborum modi praesentium?
-                        </Text>
-                        <Text>Architecto atque blanditiis, corporis cupiditate dignissimos, eaque error eum explicabo
-                            facere id, inventore laborum libero nam nemo officiis praesentium reiciendis. Aliquid aut
-                            excepturi, exercitationem nihil perferendis possimus quidem unde? Et!
-                        </Text>
-                        <Text>Ab autem deleniti dicta dolor quisquam recusandae reiciendis? Alias animi assumenda beatae
-                            cum dolore, dolorem doloremque est et fugiat hic ipsam labore maiores nam nobis perferendis
-                            quam quis reiciendis vel.
-                        </Text>
-                    </Text>
-                </View>
+            <View style={styles.wrapper}> 
+             <View style={styles.swiper}>
+                <Swiper autoplay style={{height: width / 2}} showsButtons={false}>
+                   <View style={styles.slide1}>
+                      <Text style={styles.text}>Hello Swiper</Text>
+                   </View>
+                    <View style={styles.slide2}>
+                        <Text style={styles.text}>Beautiful</Text>
+                    </View>
+                  <View style={styles.slide3}>
+                        <Text style={styles.text}>And simple</Text>
+                  </View>
+               </Swiper>
+               <View style={{height: 20}}></View>
+             </View>
+             <View style={{paddingLeft: 20, paddingRight: 20}}>
+                <ScrollView 
+                  horizontal
+                  
+                >
+                  {
+                    filters.map(item => (
+                      <TouchableOpacity key={item.id} style={styles.filterButtonStyles} >
+                         <Text style={{color: 'white'}}>{item.name}</Text>
+                      </TouchableOpacity>
+                    ))
+                  }
+                </ScrollView>
+
+                  <FeaturedRaw title='SightSeeing List' data={filters}/>
+
+             </View>
+             
+            </View>
             </ScrollView>
         </Wrapper>
     );
 }
+const styles = StyleSheet.create({
+    wrapper: {
+       flex: 1,
+       backgroundColor: '#f8f8f8'
+    },
+    swiper: {
+      width: width,
+      alignItems: 'center',
+      marginTop: 20,
+    },
+    slide1: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#9DD6EB'
+    },
+    slide2: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#97CAE5'
+    },
+    slide3: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#92BBD9'
+    },
+    text: {
+      color: '#fff',
+      fontSize: 30,
+      fontWeight: 'bold'
+    },
+    filterButtonStyles:{
+      width: 'auto', 
+      height: 30,
+      backgroundColor: 'orange', 
+      marginRight: 10,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingLeft: 4,
+      paddingRight: 4,
+      borderRadius: 5
+
+    }
+
+})
 
 export default Home;

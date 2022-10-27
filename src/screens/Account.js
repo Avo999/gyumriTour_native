@@ -1,11 +1,11 @@
 import React, {useCallback, useLayoutEffect, useEffect} from 'react';
-import {View, StyleSheet } from "react-native";
+import {View, Text, StyleSheet } from "react-native";
 import {useNavigation} from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomButton from "../components/CustomButton";
 import {useDispatch, useSelector} from "react-redux";
-import { signOut } from "../store/actions/userActions";
-import {ScrollView} from "react-native-gesture-handler";
+import { fetchProfile, signOut } from "../store/actions/userActions";
+import {RefreshControl, ScrollView} from "react-native-gesture-handler";
 import {Avatar, Box, Heading} from "native-base";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import UserInfo from '../components/UserInfo';
@@ -15,10 +15,10 @@ const profileImage = '../assets/images/blank-profile-picture-973460__340.webp'
 
 function Account(props) {
     const navigation = useNavigation();
-    const user = useSelector(state => state.user.user.user)
-    const dispatch = useDispatch()
-    const token = useSelector(state => state.user.token)
-   
+    const user = useSelector(state => state.user.user.user);
+    const dispatch = useDispatch();
+    const token = useSelector(state => state.user.token);
+    const loading = useSelector(state => state.user.loading);
 
     const handleLogOut = useCallback(async () => {
             dispatch(signOut())
@@ -33,18 +33,29 @@ function Account(props) {
     }, [])
 
 
+    useEffect(() => {
+        (async() => {
+             return dispatch(fetchProfile())
+        })()
+    },[])
 
 
     const handlePress = useCallback((val, params) => {
         navigation.navigate(val, params)
     }, [])
 
+   const handleRefresh = useCallback(() => {
+      dispatch(fetchProfile())
+   }, [])
 
+   
 
     return (
             
-            <ScrollView  >
-                <Box safeAreaTop="8">
+            <ScrollView  
+                refreshControl={<RefreshControl refreshing={loading} onRefresh={handleRefresh}/> }
+             >
+                <Box safeAreaTop="8" style={{flex: 1, flexDirection: 'column', justifyContent: 'space-between'}}>
 
                
                 <Box style={{marginLeft: 20}}>
@@ -62,8 +73,16 @@ function Account(props) {
                     </Avatar>
                     <View style={{width: 250 ,flexDirection: 'row' , justifyContent: 'space-between'}}>
                       <View style={ styles.profileName }>
-                        <Heading size='xl'>{user.firstName}</Heading>
-                        <Heading size='lg'>{user.lastName}</Heading>                        
+
+                        { loading || user === undefined ? (
+                            <Text>loading</Text>
+                        ): (
+                            <>
+                            <Heading size='xl'>{user.firstName}</Heading>
+                        <Heading size='lg'>{user.lastName}</Heading>    
+                            </>
+                        )}
+                                            
                       </View>
                       <MaterialIcons
                         name='edit'
@@ -77,13 +96,13 @@ function Account(props) {
 
                     <Box >
                        <UserInfo icon='account-circle' name='Contacts Information' onPress={() => handlePress("ProfileInfoScreen",user)} />
-                       <UserInfo name='favorit Places' onPress={() => handlePress('jb')} />
+                       <UserInfo icon='favorite' name='Favorite Places' onPress={() => handlePress('FavoritePlaces')} />
+                       <UserInfo icon='location-city' name='Add Sightseeing' onPress={() => handlePress('CreateSightSeeing')}/>
                     </Box>  
                    
-
-                    <CustomButton label='Log out' onPress={handleLogOut}/>
-               
-
+               <Box style={{paddingLeft: 50, paddingRight: 50}}>
+                 <CustomButton label='Log out' onPress={handleLogOut}/>
+             </Box>         
                 </Box>
             </ScrollView>
     );

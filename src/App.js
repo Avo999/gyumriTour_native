@@ -10,6 +10,7 @@ import {NativeBaseProvider} from "native-base";
 
 function App(props) {
     
+    
     useEffect(() => {
         const listener = BackHandler.addEventListener('back', function () {
 
@@ -34,7 +35,6 @@ function App(props) {
         };
     }, [])
 
-   
     return (
         <Provider store={store}>
             <NativeBaseProvider>

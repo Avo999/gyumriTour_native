@@ -4,6 +4,8 @@ import {Account, LogInScreen} from '../screens';
 import RegisterScreen from "../screens/RegisterScreen";
 import {useSelector} from "react-redux";
 import ProfileInfoScreen from '../screens/ProfileInfoScreen';
+import FavoritePlaces from '../screens/FavoritePlaces';
+import CreateSightSeeing from '../screens/CreateSightSeeing'
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +22,8 @@ function AccountNavigator(props) {
                     <>
                      <Stack.Screen name="AccountScreen" component={Account}/>
                      <Stack.Screen name='ProfileInfoScreen' component={ProfileInfoScreen}/> 
+                     <Stack.Screen name='FavoritePlaces' component={FavoritePlaces}/>
+                     <Stack.Screen name='CreateSightSeeing' component={CreateSightSeeing}/>
                     </>
                 ) : (
                     <>
@@ -27,7 +31,6 @@ function AccountNavigator(props) {
                         <Stack.Screen name="Register" component={RegisterScreen}/>
                     </>
                     )}
-
 
             </Stack.Navigator>
     );

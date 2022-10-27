@@ -7,7 +7,10 @@ import {
     SET_TOKEN, SIGN_OUT,
     SIGN_UP_FAIL,
     SIGN_UP_REQUEST,
-    SIGN_UP_SUCCESS
+    SIGN_UP_SUCCESS,
+    UPDATE_USER_FAIL,
+    UPDATE_USER_REQUEST,
+    UPDATE_USER_SUCCESS
 } from "../actions/userActions";
 
 const initialState = {
@@ -15,6 +18,7 @@ const initialState = {
     status: 'pending',
     error: {},
     token: '',
+    loading: false
 }
 
 export default function reducer(state = initialState, action) {
@@ -22,6 +26,7 @@ export default function reducer(state = initialState, action) {
         case LOGIN_REQUEST: {
             return {
                 ...state,
+                loading: true
             }
         }
         case LOGIN_SUCCESS: {
@@ -30,7 +35,8 @@ export default function reducer(state = initialState, action) {
                 user: {},
                 error: {},
                 status: 'ok',
-                token: action.payload.data.token
+                token: action.payload.data.token,
+                loading: false
             }
         }
         case LOGIN_FAIL: {
@@ -44,7 +50,8 @@ export default function reducer(state = initialState, action) {
                     err: err ? err : action.payload.response.data.message,
                     path: path ? path : null
                 },
-                token: ''
+                token: '',
+                loading: false
             }
         }
         case SET_TOKEN: {
@@ -60,11 +67,13 @@ export default function reducer(state = initialState, action) {
                 status: 'pending',
                 error: {},
                 token: '',
+                loading: false
             }
         }
         case SIGN_UP_REQUEST: {
             return {
                 ...state,
+                loading: true
             }
         }
         case SIGN_UP_SUCCESS: {
@@ -73,7 +82,8 @@ export default function reducer(state = initialState, action) {
                 user: {},
                 error: {},
                 status: 'ok',
-                token: action.payload.data.token
+                token: action.payload.data.token,
+                loading: false,
             }
         }
         case SIGN_UP_FAIL: {
@@ -87,12 +97,14 @@ export default function reducer(state = initialState, action) {
                 error: {
                     err: err ? err : action.payload.response.data.message,
                     path: path ? path : null
-                }
+                },
+                loading: false
             }
         }
         case GET_PROFILE_REQUEST: {
             return {
-                ...state
+                ...state,
+                loading: true
             }
         }
         case GET_PROFILE_SUCCESS: {
@@ -101,6 +113,7 @@ export default function reducer(state = initialState, action) {
                 user: action.payload.data,
                 status: 'ok',
                 error: {},
+                loading: false
 
             }
         }
@@ -109,7 +122,37 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 user: {},
                 token: '',
-                error: action.payload.data
+                status: 'error',
+                error: action.payload.data,
+                loading: false
+            }
+        }
+        case UPDATE_USER_REQUEST: {
+            return{
+                ...state,
+                loading: true,
+            }
+        }
+        case UPDATE_USER_SUCCESS: {
+            return{
+                ...state,
+                user: action.payload.data,
+                status: 'success',
+                error: {},
+                loading: false
+            }
+        }
+        case UPDATE_USER_FAIL: {
+            const err = action.payload.response.data.errors
+            const path = action.payload.response.data.path
+            return{
+                ...state,
+                error: {
+                    err: err ? err : action.payload.response.data.message,
+                    path: path ? path : null
+                },
+                status: 'error',
+                loading: false
             }
         }
         default: {

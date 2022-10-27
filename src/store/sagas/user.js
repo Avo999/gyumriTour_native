@@ -6,7 +6,10 @@ import {LOGIN_REQUEST,
     SIGN_UP_SUCCESS,
     GET_PROFILE_SUCCESS,
     GET_PROFILE_FAIL,
-    GET_PROFILE_REQUEST} from "../actions/userActions";
+    GET_PROFILE_REQUEST,
+    UPDATE_USER_REQUEST,
+    UPDATE_USER_SUCCESS,
+    UPDATE_USER_FAIL} from "../actions/userActions";
 import { takeLatest, call, put } from 'redux-saga/effects'
 import UserRequests from '../../api/UserRequests'
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -17,14 +20,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function* watcher() {
     yield takeLatest(LOGIN_REQUEST, handleLogInRequest);
     yield takeLatest(SIGN_UP_REQUEST, handleSignUpRequest);
-    yield takeLatest(GET_PROFILE_REQUEST, handleFetchProfile)
+    yield takeLatest(GET_PROFILE_REQUEST, handleFetchProfile);
+    yield takeLatest(UPDATE_USER_REQUEST, handleUpdateUser);
 }
 
 async function storeToken (token) {
     try {
         await AsyncStorage.setItem('token', token);
     } catch (e) {
-        console.log(e)
+        console.log(e, 'djgvjdh')
     }
 }
 
@@ -71,6 +75,21 @@ function* handleFetchProfile (action) {
     } catch(e){
         yield put({
             type: GET_PROFILE_FAIL,
+            payload: e
+        })
+    }
+}
+
+function* handleUpdateUser (action) {
+    try {
+    const {data} =  yield call(UserRequests.updateUser, action.payload.data);
+    yield put({
+        type: UPDATE_USER_SUCCESS,
+        payload: {data}
+    })
+    } catch (e) {
+        yield put({
+            type: UPDATE_USER_FAIL,
             payload: e
         })
     }

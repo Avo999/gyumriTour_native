@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "743433428737",
+    "project_id": "nomadic-thinker-341221",
+    "storage_bucket": "nomadic-thinker-341221.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:743433428737:android:2aabfef4d22ba8d8c78500",
+        "android_client_info": {
+          "package_name": "com.gyumritour_native"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "743433428737-hs65rja6eac4jb2lo1hbm2h3gpvo6jcm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gyumritour_native",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "743433428737-mhkovao472nhnmukhj6ifsafp7fovuep.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAh7DEP8btB3QrRa65v5wXktm62gM3UDM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "743433428737-mhkovao472nhnmukhj6ifsafp7fovuep.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

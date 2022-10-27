@@ -5,25 +5,26 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import CustomButton from "../components/CustomButton";
 import {useNavigation} from "@react-navigation/native";
-
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+import auth from '@react-native-firebase/auth';
 import GoogleSVG from '../assets/images/misc/google.svg';
 import FacebookSVG from '../assets/images/misc/facebook.svg';
 import {useDispatch, useSelector} from "react-redux";
 import {fetchLogIn} from "../store/actions/userActions";
 import _ from 'lodash'
+import ForgotComponent from '../components/ForgotComponent'
 
 
 function LogInScreen(props) {
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const token = useSelector(state => state.user.token);
-    const user = useSelector(state => state.user.user);
-    const error = useSelector(state => state.user.error)
-
+    const error = useSelector(state => state.user.error);
 
     const [inputs, setInputs] = useState({email: '', password: ''});
-    const [errors, setErrors] = useState({});
-    const [loading, setLoading] = useState(false);
+    const [errors,  setErrors] = useState({});
+    const [userInfo, setUserInfo] = useState({});
+    const [modalVisible, setModalVisible] = React.useState(false);
 
 
     const handleOnchange = (text, input) => {
@@ -37,7 +38,7 @@ function LogInScreen(props) {
     useEffect(() => {
         (async () => {
             if (token) {
-                navigation.navigate('AccountScreen')
+                navigation.navigate('HomeScreen')
             }
 
             if (!_.isEmpty(error)) {
@@ -46,15 +47,37 @@ function LogInScreen(props) {
 
         })()
 
-    }, [token, user, error])
+    }, [token, error])
 
     const handlePressSubmit = useCallback(() => {
         Keyboard.dismiss()
 
         dispatch(fetchLogIn(inputs));
+        // navigation.navigate('HomeScreen')
 
     }, [inputs])
 
+        GoogleSignin.configure({
+             webClientId: '743433428737-mhkovao472nhnmukhj6ifsafp7fovuep.apps.googleusercontent.com',
+        });
+
+
+    const handleGoogleSignIn = useCallback(async() => {
+        const {idToken, user} = await GoogleSignin.signIn();
+
+        const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+      
+        const userSignIn =  auth().signInWithCredential(googleCredential);
+        
+        
+        
+        // userSignIn.then(user => {
+        //     setUserInfo(user)
+        // }).catch(err => {
+        //     console.log(err);
+        // })
+        
+    }, []);
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -91,7 +114,6 @@ function LogInScreen(props) {
                                      size={20}
                                      color="orange"
                                      style={{marginRight: 5}}
-
                                  />
                              }
                 />
@@ -111,15 +133,12 @@ function LogInScreen(props) {
                 <View
                     style={styles.altLogContainer}>
                     <TouchableOpacity
-                        onPress={() => {
-
-                        }}
+                        onPress={ handleGoogleSignIn }
                         style={styles.altLogBtn}>
                         <GoogleSVG height={24} width={24}/>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={() => {
-                        }}
+                        onPress={() => {}}
                         style={styles.altLogBtn}>
                         <FacebookSVG height={24} width={24}/>
                     </TouchableOpacity>
@@ -136,7 +155,19 @@ function LogInScreen(props) {
                         <Text style={{color: 'orange', fontWeight: '700'}}> Register</Text>
                     </TouchableOpacity>
                 </View>
+                <View
+                    style={{
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        marginBottom: 30,
+                    }}>
+                        <ForgotComponent isOpen={modalVisible} setModalVisible={setModalVisible}/>
+                    <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                        <Text style={{color: 'orange', fontWeight: '700'}}> Forgot?</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
+            
         </KeyboardAvoidingView>
     );
 }
