@@ -2,7 +2,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { Box, Avatar, Center } from "native-base";
 import React, { useLayoutEffect, useCallback, useState, useEffect } from "react";
 import {useDispatch, useSelector} from 'react-redux'
-import { Keyboard, KeyboardAvoidingView, StyleSheet } from 'react-native';
+import {Keyboard, KeyboardAvoidingView, ScrollView, StyleSheet} from 'react-native';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import EditInput from "../components/EditInput";
 import CustomButton from '../components/CustomButton'
@@ -52,7 +52,7 @@ function ProfileInfoScreen(props){
         
     }, [inputs, status])
     return (
-        <KeyboardAvoidingView  safeArea style={styles.editContainer} >
+        <ScrollView   >
             <Box safeArea>
             <Box style={{position: 'relative'}}>            
                 <Avatar bg="purple.600" alignSelf="center" size="2xl" source={{
@@ -87,7 +87,7 @@ function ProfileInfoScreen(props){
                  <CustomButton label='Save' onPress={handlePressSubmit}/>
             </Box>
             </Box>
-        </KeyboardAvoidingView>
+        </ScrollView>
     )
 }
 
